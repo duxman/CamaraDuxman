@@ -64,7 +64,7 @@ class CameraDuxmanV2(object):
 
     def Texto(self,texto, tam):
         self.borrar()
-        font = pygame.font.Font("Fine.ttf", tam)
+        font = pygame.font.Font("./resources/Fine.ttf", tam)
         text_surface = font.render(texto, True, (255, 255, 255))
         textSize = font.size(texto)
         posicion = self.damePosicionCentro(textSize)
@@ -159,7 +159,9 @@ class CameraDuxmanV2(object):
 
 
 if __name__ == "__main__":
+
     mainprogram = CameraDuxmanV2()
+
     mainprogram.MainProcess()
 
     mainprogram.Logger.info("--------------------<<  END  >>--------------------")
