@@ -1,7 +1,8 @@
 import json
 import os
 import time
-from CameraExtraGrafica import pyscope
+
+from util.CameraExtraGrafica import pyscope
 
 # Solo para emular la camara en windows
 if os.name == 'poxis':

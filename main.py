@@ -1,10 +1,12 @@
 import os
 import time
+
 import pygame
-from util.config import configuration
-from util.logger import clienteLog
-from images2gif import writeGif
 from PIL import Image
+
+from util.config import configuration
+from util.images2gif import writeGif
+from util.logger import clienteLog
 
 # solo para emular el GPIO
 if os.name == 'poxis':
