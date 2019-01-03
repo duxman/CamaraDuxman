@@ -1,7 +1,7 @@
 {
-  "RutaImagenes" : "../IMAGENES",
-  "RutaGifs" : "../IMAGENES/GIFS",
-  "RutaCapturas" : "../IMAGENES/JPG",
+  "RutaImagenes" : "./WEB/galeria/IMG",
+  "RutaGifs" : "./WEB/galeria/GIF",
+  "RutaCapturas" : "./WEB/galeria/JPG",
   "BOTON_GPIO":7,
   "LUZ_BOTON_GPIO":8,
   "LED_VERDE_GPIO":9,
