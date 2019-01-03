@@ -3,6 +3,7 @@ import os
 import time
 from CameraExtraGrafica import pyscope
 
+# Solo para emular la camara en windows
 if os.name == 'poxis':
     import picamera.PiCamera as PiCamera
 else:

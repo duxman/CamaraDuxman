@@ -1,15 +1,15 @@
 import os
 import time
-
+import pygame
 from util.config import configuration
 from util.logger import clienteLog
-from PIL import Image
 from images2gif import writeGif
+from PIL import Image
+
+# solo para emular el GPIO
 if os.name == 'poxis':
     import RPi.GPIO as GPIO
-    import pygame
 else:
-    from emulators import pygame
     import tool.EmulatorGUI as GPIODEV
     GPIO = GPIODEV.emulatorGPIO()
 
