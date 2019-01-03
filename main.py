@@ -1,6 +1,7 @@
 import os
 import time
-from config import config
+
+from util.config import configuration
 from util.logger import clienteLog
 from PIL import Image
 from images2gif import writeGif
@@ -14,12 +15,7 @@ else:
 
 
 #Constantes GPIO
-BOTON_GPIO=7
-LUZ_BOTON_GPIO=8
-LED_VERDE_GPIO=9
-LED_NARANJA_GPIO=10
-LED_ROJO_GPIO=11
-FLASH_GPIO=22
+
 
 class CameraDuxmanV2(object):
     Loggger = None
@@ -28,7 +24,7 @@ class CameraDuxmanV2(object):
     def __init__(self):
         cliente = clienteLog()
         self.Logger = cliente.InicializaLogConsole()
-        self.Configuration = config()
+        self.Configuration = configuration()
         self.MainProcess()
 
     ## Defino funciones
@@ -78,12 +74,12 @@ class CameraDuxmanV2(object):
         GPIO.setwarnings(False)
         GPIO.setmode(GPIO.BCM)
 
-        GPIO.setup(BOTON_GPIO, GPIO.IN)
-        GPIO.setup(LUZ_BOTON_GPIO, GPIO.OUT)
-        GPIO.setup(LED_VERDE_GPIO, GPIO.OUT)
-        GPIO.setup(LED_NARANJA_GPIO, GPIO.OUT)
-        GPIO.setup(LED_ROJO_GPIO, GPIO.OUT)
-        GPIO.setup(FLASH_GPIO, GPIO.OUT)
+        GPIO.setup(self.Configuration.BOTON_GPIO, GPIO.IN)
+        GPIO.setup(self.Configuration.LUZ_BOTON_GPIO, GPIO.OUT)
+        GPIO.setup(self.Configuration.LED_VERDE_GPIO, GPIO.OUT)
+        GPIO.setup(self.Configuration.LED_NARANJA_GPIO, GPIO.OUT)
+        GPIO.setup(self.Configuration.LED_ROJO_GPIO, GPIO.OUT)
+        GPIO.setup(self.Configuration.FLASH_GPIO, GPIO.OUT)
 
     ## Fin PrepararGPIO
 
@@ -108,32 +104,32 @@ class CameraDuxmanV2(object):
             time.sleep(3)
             self.Texto("Pulsa el Boton", 90)
             while True:
-                if (GPIO.input(BOTON_GPIO)):
+                if (GPIO.input(self.Configuration.BOTON_GPIO)):
                     ImagesToGIF = []
                     NombreBaseCaptura = self.dameNombreFicheroCapturaBase()
                     NombreGIF = self.dameNombreFicheroGif()
 
                     # camera.start_preview()
-                    self.ApagarLed(LUZ_BOTON_GPIO)  ## Apago el la luz del boton
+                    self.ApagarLed(self.Configuration.LUZ_BOTON_GPIO)  ## Apago el la luz del boton
                     print("Button Pressed")
-                    self.EncenderLed(FLASH_GPIO, 0)  ## Enciendo el Flash
+                    self.EncenderLed(self.Configuration.FLASH_GPIO, 0)  ## Enciendo el Flash
 
                     self.Texto('3', 250)
-                    self.EncenderYApagarLed(LED_ROJO_GPIO, 3)  ## Enciendo el led Rojo
+                    self.EncenderYApagarLed(self.Configuration.LED_ROJO_GPIO, 3)  ## Enciendo el led Rojo
                     self.Configuration.Camera.capture(NombreBaseCaptura + '_01.jpg')
 
                     self.Texto('2', 250)
-                    self.EncenderYApagarLed(LED_NARANJA_GPIO, 3)  ## Enciendo el led Naranja
+                    self.EncenderYApagarLed(self.Configuration.LED_NARANJA_GPIO, 3)  ## Enciendo el led Naranja
                     self.Configuration.Camera.capture(NombreBaseCaptura + '_02.jpg')
 
                     self.Texto('1', 250)
-                    self.EncenderYApagarLed(LED_VERDE_GPIO, 3)  ## Enciendo el led Verde
+                    self.EncenderYApagarLed(self.Configuration.LED_VERDE_GPIO, 3)  ## Enciendo el led Verde
                     self.Configuration.Camera.capture(NombreBaseCaptura + '_03.jpg')
 
                     self.Texto("SONRIE ;)", 100)
-                    self.EncenderYApagarLed(LED_VERDE_GPIO, 3)  ## Enciendo el led Verde
+                    self.EncenderYApagarLed(self.Configuration.LED_VERDE_GPIO, 3)  ## Enciendo el led Verde
                     self.Configuration.Camera.capture(NombreBaseCaptura + '_04.jpg')
-                    self.ApagarLed(FLASH_GPIO)
+                    self.ApagarLed(self.Configuration.FLASH_GPIO)
 
                     self.Texto("Guardando ...", 100)
 
@@ -147,10 +143,10 @@ class CameraDuxmanV2(object):
                     # camera.stop_preview()
                     self.Texto("Pulsa el Boton", 90)
                 else:
-                    self.EncenderLed(LUZ_BOTON_GPIO, 0)  ## Enciendo el LUZ_BOTON_GPIO
-                    self.ApagarLed(LED_ROJO_GPIO)  ## Apago el led Rojo
-                    self.ApagarLed(LED_NARANJA_GPIO)  ## Apago el led Naranja
-                    self.ApagarLed(LED_VERDE_GPIO)  ## Apago el led Verde
+                    self.EncenderLed(self.Configuration.LUZ_BOTON_GPIO, 0)  ## Enciendo el LUZ_BOTON_GPIO
+                    self.ApagarLed(self.Configuration.LED_ROJO_GPIO)  ## Apago el led Rojo
+                    self.ApagarLed(self.Configuration.LED_NARANJA_GPIO)  ## Apago el led Naranja
+                    self.ApagarLed(self.Configuration.LED_VERDE_GPIO)  ## Apago el led Verde
                     ##Fin if Boton
                     ##Fin While
         except Exception as ex:

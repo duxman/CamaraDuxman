@@ -1,0 +1,12 @@
+{
+  "RutaImagenes" : "../IMAGENES",
+  "RutaGifs" : "../IMAGENES/GIFS",
+  "RutaCapturas" : "../IMAGENES/JPG",
+  "BOTON_GPIO":7,
+  "LUZ_BOTON_GPIO":8,
+  "LED_VERDE_GPIO":9,
+  "LED_NARANJA_GPIO":10,
+  "LED_ROJO_GPIO":11,
+  "FLASH_GPIO":22
+}
+

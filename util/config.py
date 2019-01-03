@@ -1,3 +1,4 @@
+import json
 import os
 import time
 from CameraExtraGrafica import pyscope
@@ -8,7 +9,7 @@ else:
     from emulators.emulators import PiCamera
 
 
-class config(object):
+class configuration(object):
 
     Pantalla = None
     Camera = None
@@ -16,11 +17,35 @@ class config(object):
     RutaGifs = '../IMAGENES/GIFS'
     RutaCapturas = '../IMAGENES/JPG'
 
+    BOTON_GPIO = 7
+    LUZ_BOTON_GPIO = 8
+    LED_VERDE_GPIO = 9
+    LED_NARANJA_GPIO = 10
+    LED_ROJO_GPIO = 11
+    FLASH_GPIO = 22
+
     def __init__(self):
+        self.LoadJson()
         self.Pantalla = pyscope();
         self.Camera = PiCamera(resolution=(640, 480), framerate=15)
         self.InitializeCamera()
-        self.CreaDirectorios()
+        self.CreaDirectorios(rutaimagenes=self.RutaImagenes, rutacapturas=self.RutaCapturas, rutagifs= self.RutaGifs)
+
+    def LoadJson(self):
+        self.data = json.load(open('./config/configuration.json'))
+
+        self.RutaImagenes = self.data["RutaImagenes"]
+        self.RutaGifs = self.data["RutaGifs"]
+        self.RutaCapturas = self.data["RutaCapturas"]
+
+        self.BOTON_GPIO = self.data["BOTON_GPIO"]
+        self.LUZ_BOTON_GPIO = self.data["LUZ_BOTON_GPIO"]
+        self.LED_VERDE_GPIO = self.data["LED_VERDE_GPIO"]
+        self.LED_NARANJA_GPIO = self.data["LED_NARANJA_GPIO"]
+        self.LED_ROJO_GPIO = self.data["LED_ROJO_GPIO"]
+        self.FLASH_GPIO = self.data["FLASH_GPIO"]
+
+
 
     def InitializeCamera(self):
         self.Camera.iso = 600
