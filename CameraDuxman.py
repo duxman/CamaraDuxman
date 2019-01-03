@@ -1,4 +1,6 @@
-import picamera
+from picamera import PiCamera
+from images2gif import writeGif
+from PIL import Image
 import os
 import time
 import traceback
@@ -104,30 +106,43 @@ def Main():
     Texto( "Pulsa el Boton", 90 )                
     while True:
       if (GPIO.input(BOTON_GPIO)):
+        ImagesToGIF=[]
         NombreBaseCaptura = dameNombreFicheroCapturaBase()
         NombreGIF 	  = dameNombreFicheroGif()
 
-        camera.start_preview()
+        #camera.start_preview()
         ApagarLed( LUZ_BOTON_GPIO)			## Apago el la luz del boton
         print("Button Pressed")
-
-
+        EncenderLed( FLASH_GPIO, 0 )		## Enciendo el Flash        
+ 
         Texto( '3', 250 )
-        EncenderYApagarLed( LED_ROJO_GPIO, 2 )		## Enciendo el led Rojo
+        EncenderYApagarLed( LED_ROJO_GPIO, 3 )		## Enciendo el led Rojo
         camera.capture(NombreBaseCaptura+'_01.jpg')
         
         Texto( '2', 250 )
-        EncenderYApagarLed( LED_NARANJA_GPIO, 2 )	## Enciendo el led Naranja
+        EncenderYApagarLed( LED_NARANJA_GPIO, 3 )	## Enciendo el led Naranja
         camera.capture(NombreBaseCaptura+'_02.jpg')
         
         Texto( '1', 250 )
-        EncenderYApagarLed( LED_VERDE_GPIO, 2 )		## Enciendo el led Verde
+        EncenderYApagarLed( LED_VERDE_GPIO, 3 )		## Enciendo el led Verde
         camera.capture(NombreBaseCaptura+'_03.jpg')
         
-        Texto( "Flash", 180 )                
-        EncenderYApagarLed( FLASH_GPIO, 2 )		## Enciendo el Flash        
+        Texto( "SONRIE ;)", 100 )                
+        EncenderYApagarLed( LED_VERDE_GPIO, 3 )		## Enciendo el led Verde
         camera.capture(NombreBaseCaptura+'_04.jpg')
+	ApagarLed( FLASH_GPIO )
+        
+        Texto( "Guardando ...", 100 )
+                
+        ImagesToGIF.append(Image.open(NombreBaseCaptura+'_01.jpg'))
+        ImagesToGIF.append(Image.open(NombreBaseCaptura+'_02.jpg'))
+        ImagesToGIF.append(Image.open(NombreBaseCaptura+'_03.jpg'))
+        ImagesToGIF.append(Image.open(NombreBaseCaptura+'_04.jpg'))
+	
+	writeGif(NombreGIF, ImagesToGIF,duration=0.5)
 
+
+	#camera.stop_preview()
         Texto( "Pulsa el Boton", 90 )                
       else:
         EncenderLed( LUZ_BOTON_GPIO, 0)		## Enciendo el LUZ_BOTON_GPIO
@@ -151,7 +166,7 @@ def Main():
 pantalla = pyscope();
 camera = PiCamera(resolution=(640, 480), framerate=15)
 camera.iso = 600
-sleep(2)
+time.sleep(2)
 camera.shutter_speed = camera.exposure_speed
 camera.shutter_speed = 100000
 camera.exposure_mode = 'off'
